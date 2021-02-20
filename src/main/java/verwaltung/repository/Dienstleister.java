@@ -16,6 +16,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
@@ -25,6 +26,14 @@ import org.hibernate.annotations.Target;
 @Entity
 public class Dienstleister {
 	
+	
+	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int serviceId;
 	private String name;
@@ -37,9 +46,11 @@ public class Dienstleister {
 	@OneToMany (cascade=CascadeType.ALL, fetch=FetchType.EAGER)
 	@JoinColumn(name="serviceId")
 	private Set<Bewertung> bewertungen;
-	private Geschlecht geschlecht;
 	@Transient
 	private double durchschnittsBewertung;
+	@ManyToOne(cascade=CascadeType.PERSIST, fetch=FetchType.EAGER)
+	@JoinColumn(name = "userId")
+	private User user;
 	
 	
 	public int getServiceId() {
@@ -85,9 +96,6 @@ public class Dienstleister {
 		this.bewertungen = bewertungen;
 	}
 	
-	public void setGeschlecht(Geschlecht geschlecht) {
-		this.geschlecht = geschlecht;
-	}
 	public double getDurchschnittsBewertung() {
 		Set<Bewertung> set = new HashSet<Bewertung>();
 		set = getBewertungen();
@@ -99,7 +107,6 @@ public class Dienstleister {
 		durchschnittsBewertung = sum/set.size();
 		return durchschnittsBewertung;
 	}
-	
 	public void setDurchschnittsBewertung(int durchschnittsBewertung) {
 		this.durchschnittsBewertung = durchschnittsBewertung;
 	}
@@ -109,12 +116,14 @@ public class Dienstleister {
 	public void setBeruf(String beruf) {
 		this.beruf = beruf;
 	}
-	public Geschlecht getGeschlecht() {
-		return geschlecht;
+	
+	public void setDurchschnittsBewertung(double durchschnittsBewertung) {
+		this.durchschnittsBewertung = durchschnittsBewertung;
 	}
 	@Override
 	public String toString() {
-		return "Dienstleister [name=" + name + ", beruf=" + beruf + "]";
+		return "Dienstleister [serviceId=" + serviceId + ", name=" + name + ", user=" + user + "]";
 	}
+	
 
 }

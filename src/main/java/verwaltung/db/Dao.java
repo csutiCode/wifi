@@ -1,7 +1,11 @@
 package verwaltung.db;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import org.hibernate.Criteria;
 import org.hibernate.SQLQuery;
 import org.hibernate.Session;
@@ -12,6 +16,8 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
+
+import javafx.util.Callback;
 import verwaltung.repository.Bewertung;
 import verwaltung.repository.Dienstleister;
 import verwaltung.repository.FirmenAdresse;
@@ -35,6 +41,15 @@ public class Dao {
 		session.close();
 		return result;
 	}
+	//gibt eine Liste von Dienstleister, die zu einem Id gehören
+	public static List<Dienstleister> getAllByUserId(int userId) {
+		List<Dienstleister> result = getAll().stream()
+				.filter(d -> d.getUser().getUserId()==userId)
+				.collect(Collectors.toList());
+		return result;
+	}
+	
+	
 	// ändert ein Objekt, das bereits in der Datenbank ist
 	public static void editDienstleister(Dienstleister dienstleister) {
 		Session session = getSession();
@@ -74,11 +89,11 @@ public class Dao {
 	public static String readBenutzerName(String benutzerName) {
 		Session session = getSession();
 		Transaction tx = session.beginTransaction();
-
 		String hql = "FROM User A WHERE A.benutzerName = :benutzerName";
 		Query query = session.createQuery(hql);
 		query.setParameter("benutzerName", benutzerName);
 		User a = (User) query.getSingleResult();
+		session.close();
 		return a.getBenutzerName();
 	}
 	public static String readPasswort(String passwort) {
@@ -88,8 +103,31 @@ public class Dao {
 		Query query = session.createQuery(hql);
 		query.setParameter("passwort", passwort);
 		User a = (User) query.getSingleResult();
+		session.close();
 		return a.getPasswort();
 	}
+	public static int getUserId(String benutzerName) {
+		Session session = getSession();
+		Transaction tx = session.beginTransaction();
+		String hql = "FROM User A WHERE A.benutzerName = :benutzerName";
+		Query query = session.createQuery(hql);
+		query.setParameter("benutzerName", benutzerName);
+		User a = (User) query.getSingleResult();
+		session.close();
+		return a.getUserId();
+	}
+	public static User getUserById(int id) {
+		User user = new User();
+		Session session = getSession();
+		user = session.get(User.class, id);
+		session.close();
+		return user;
+	}
+		
+	
+	
+	
+	
 	//die Datenbankverbindung auf zu bauen
 	public static Session getSession() {
 		Configuration con = new Configuration().configure().addAnnotatedClass(Dienstleister.class)

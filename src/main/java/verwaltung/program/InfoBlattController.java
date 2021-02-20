@@ -4,17 +4,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import verwaltung.db.Dao;
 import verwaltung.repository.Bewertung;
 import verwaltung.repository.Dienstleister;
 import verwaltung.repository.FirmenAdresse;
-import verwaltung.repository.Geschlecht;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
-import antlr.collections.List;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 
@@ -92,11 +86,11 @@ public class InfoBlattController {
 		txtBeruf.setText(dienstleister.getBeruf());
 		txtEmail.setText(dienstleister.getEmail());
 		txtTelefon.setText(dienstleister.getTelefon());
-		if (dienstleister.getGeschlecht().equals(Geschlecht.MANN)) {
-			txtGeschlecht.setText("Mann"); 
-		} else {
-			txtGeschlecht.setText("Frau"); 
-		}
+//		if (dienstleister.getGeschlecht().equals(Geschlecht.MANN)) {
+//			txtGeschlecht.setText("Mann"); 
+//		} else {
+//			txtGeschlecht.setText("Frau"); 
+//		}
 		
 		Set<Bewertung> set = new HashSet<Bewertung>();
 		set = dienstleister.getBewertungen();

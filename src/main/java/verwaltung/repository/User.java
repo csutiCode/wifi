@@ -1,5 +1,8 @@
 package verwaltung.repository;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -11,18 +14,26 @@ import net.bytebuddy.dynamic.loading.ClassReloadingStrategy.Strategy;
 @Entity
 public class User {
 	
+	
+	
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
+	private int userId;
 	private String benutzerName;
 	private String passwort;
 	
+	public User() {};
 	
-	public int getId() {
-		return id;
+	public User(int userId) {
+		super();
+		this.userId = userId;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public int getUserId() {
+		return userId;
 	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	
 	public String getBenutzerName() {
 		return benutzerName;
 	}
@@ -36,7 +47,9 @@ public class User {
 		this.passwort = passwort;
 	}
 	
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", benutzerName=" + benutzerName + ", passwort=" + passwort + "]";
+	}
 	
-	
-
 }

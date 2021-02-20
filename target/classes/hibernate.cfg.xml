@@ -26,8 +26,5 @@
         <mapping class="verwaltung.repository.FirmenAdresse"></mapping>
         <mapping class="verwaltung.repository.Bewertung"></mapping>
         <mapping class="verwaltung.repository.User"></mapping>
-        
-
-    
     </session-factory>
 </hibernate-configuration>

@@ -19,12 +19,11 @@ import verwaltung.db.Dao;
 import verwaltung.repository.Bewertung;
 import verwaltung.repository.Dienstleister;
 import verwaltung.repository.FirmenAdresse;
-import verwaltung.repository.Geschlecht;
+import verwaltung.repository.User;
 
 public class TableViewController{
 	
-	public static boolean isAdmin = false;
-	private static int id;
+	
 	
 	@FXML
 	private Button btnLogin;
@@ -49,17 +48,34 @@ public class TableViewController{
     @FXML
     private TableColumn<Dienstleister, String> telefon;
     
+    private ObservableList<Dienstleister> oblist;
+    
     private FilteredList<Dienstleister> filteredData;
     
     SortedList<Dienstleister> sortedData;
     
     private ObjectProperty<Dienstleister> selectedDienstleister = new SimpleObjectProperty<>();
     
-    public static int getId() {
-		
-		return id;
+    public static boolean isUser = false;
+    
+    private static int userId;
+    
+	private static int dienstleisterId;
+	
+	public static int getUserId() {
+		return userId;
 	}
-
+	public static void setUserId(int userId) {
+		TableViewController.userId = userId;
+	}
+	public static int getDienstleisterId() {
+		return dienstleisterId;
+	}
+	public static void setDienstleisterIid(int dienstleisterIid) {
+		TableViewController.dienstleisterId = dienstleisterIid;
+	}
+	
+	
 	@FXML
 	private void initialize() {
 	
@@ -90,7 +106,7 @@ public class TableViewController{
 	@FXML
 	public void editDienstleister() {
 		Dienstleister editDienstleister = selectedDienstleister.get();
-		id = editDienstleister.getServiceId();
+		dienstleisterId = editDienstleister.getServiceId();
 		if (editDienstleister!= null) {
 			EditDienstleisterWindow wd = new EditDienstleisterWindow(editDienstleister);
 			Dienstleister result = wd.showWindow();
@@ -115,13 +131,15 @@ public class TableViewController{
 	public void login() {
 		AnmeldungWindow dlg = new AnmeldungWindow();
 		dlg.showWindow();
-		threading();
+//		threading();
+		setVisible(isUser);
+		
 	}
 	//öffnet das Anmeldung-Fenster, um die erweiterte Datei eines Dienstleisters an zu schauen
 	@FXML
 	public void info() {
 		Dienstleister dienstleister = selectedDienstleister.getValue();
-		id = dienstleister.getServiceId();
+		dienstleisterId = dienstleister.getServiceId();
 		InfoBlattWindow info = new InfoBlattWindow(dienstleister);
 		info.showWindow(dienstleister);
 		
@@ -133,21 +151,26 @@ public class TableViewController{
 			btnNew.setVisible(true);
 			btnEdit.setVisible(true);
 			btnDelete.setVisible(true);
+			createTableView();
 			
 		} else {
 			btnNew.setVisible(false);
 			btnEdit.setVisible(false);
 			btnDelete.setVisible(false);
 		}
+		
 	}
 	//diese Methode gibt die Möglichkeit um die Buttons sichtbar zu machen nach der Anmeldung
 	public void threading() {
 		Thread thread = new Thread() {public void run() {
 			try {
-				while (!isAdmin) {
+				while (!isUser) {
 					Thread.sleep(1000);
-					setVisible(isAdmin);
+					setVisible(isUser);
 					//TODO: thread schliessen
+//					if (isUser) {
+//						
+//					}
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -158,8 +181,13 @@ public class TableViewController{
 	
 	
 	public void createTableView() {
-		ObservableList<Dienstleister> oblist = FXCollections.observableArrayList(Dao.getAll());		
-
+		
+		if (isUser) {
+		oblist = FXCollections.observableArrayList(Dao.getAllByUserId(userId));		
+		} else  {
+		oblist = FXCollections.observableArrayList(Dao.getAll());	
+		}
+		
 		name.setCellValueFactory(new PropertyValueFactory<>("name"));
 		beruf.setCellValueFactory(new PropertyValueFactory<>("beruf"));
 		email.setCellValueFactory(new PropertyValueFactory<>("email"));
@@ -172,6 +200,7 @@ public class TableViewController{
 			System.out.println("selectedDienstleister: " + newVal);
 			selectedDienstleister.set(newVal);
 		});
+		
 
 		filteredData = new FilteredList<>(oblist, b -> true);
 			
@@ -192,13 +221,20 @@ public class TableViewController{
 			});
 			
 		sortedData = new SortedList<>(filteredData);
+		
 		sortedData.comparatorProperty().bind(tblDienstleistern.comparatorProperty());
 		tblDienstleistern.setItems(sortedData);
+		
+		
+		System.out.println(userId);
+		System.out.println(isUser);
+		} 
+			
+		
+		
 	}
-		
-		
-
-}
-
-
 	
+
+
+
+

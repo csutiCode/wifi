@@ -2,7 +2,6 @@ package verwaltung.program;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
@@ -10,15 +9,11 @@ import javafx.stage.Stage;
 import verwaltung.db.Dao;
 import verwaltung.repository.Dienstleister;
 import verwaltung.repository.FirmenAdresse;
-import verwaltung.repository.Geschlecht;
-
-
+import verwaltung.repository.User;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
-
 import javafx.scene.control.RadioButton;
-
 import javafx.scene.control.DatePicker;
 
 public class EditDienstleisterController {
@@ -81,10 +76,10 @@ public class EditDienstleisterController {
 	@FXML
 	public void initialize() {
 		//das Objekt setzen oder aus der Datenbank holen
-		if (TableViewController.getId()==0) {
+		if (TableViewController.getDienstleisterId()==0) {
 			editDienstleister = new Dienstleister();
 		} else {
-			editDienstleister = Dao.getOneById(TableViewController.getId());
+			editDienstleister = Dao.getOneById(TableViewController.getDienstleisterId());
 		}
 		System.out.println(editDienstleister + " from initialize");
 		
@@ -121,9 +116,6 @@ public class EditDienstleisterController {
 	
 	
 	public void controlsToDienstleister() {
-
-		// zu dem Dienstleister OBjekt
-//		editDienstleister = new Dienstleister();
 		//zu der AdressenObjekt
 		editAdresse = new FirmenAdresse();
 			//Daten zur Firmenadresse setzen
@@ -139,12 +131,19 @@ public class EditDienstleisterController {
 		editDienstleister.setEmail(txtEmail.getText());
 		editDienstleister.setTelefon(txtTelefon.getText());
 		editDienstleister.setGeburtsDatum(dtpGeburtsDatum.getValue());
-		Toggle selToggle = group.getSelectedToggle();
-			if (selToggle == rbMann) {
-				editDienstleister.setGeschlecht(Geschlecht.MANN);
-			} else {
-				editDienstleister.setGeschlecht(Geschlecht.FRAU);
-			}
+		User user = Dao.getUserById(TableViewController.getUserId());
+		editDienstleister.setUser(user);
+		System.out.println(user);
+		
+		
+		
+		
+//		Toggle selToggle = group.getSelectedToggle();
+//			if (selToggle == rbMann) {
+//				editDienstleister.setGeschlecht(Geschlecht.MANN);
+//			} else {
+//				editDienstleister.setGeschlecht(Geschlecht.FRAU);
+//			}
 
 	}
 
@@ -160,44 +159,20 @@ public class EditDienstleisterController {
 		txtEmail.setText(editDienstleister.getEmail());
 		dtpGeburtsDatum.setValue(editDienstleister.getGeburtsDatum());
 		
-		switch (editDienstleister.getGeschlecht()) {
-			case MANN:
-				rbMann.setSelected(true);
-				break;
-			case FRAU:
-				rbFrau.setSelected(true);
-				break;
-			}
+//		switch (editDienstleister.getGeschlecht()) {
+//			case MANN:
+//				rbMann.setSelected(true);
+//				break;
+//			case FRAU:
+//				rbFrau.setSelected(true);
+//				break;
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
 	
-//	public void updateDienstleister() {
-//		editDienstleister = Dao.getOneById(editDienstleister.getServiceId());
-//		editAdresse = editDienstleister.getAdresse();
-//		//Daten zur Firmenadresse setzen
-//		editAdresse.setPlz(Integer.parseInt(txtPlz.getText()));
-//		editAdresse.setStadt(txtStadt.getText());
-//		editAdresse.setStrasse(txtStrasse.getText());
-//		editAdresse.setHausnummer(Integer.parseInt(txtNummer.getText()));
-//		//Das FirmenAdresse-Objekt dem Dienstleister übergeben
-//		editDienstleister.setAdresse(editAdresse);
-//		//Daten zum Dienstleister OBjekt setzen
-//		editDienstleister.setBeruf(txtBeruf.getText());
-//		editDienstleister.setName(txtName.getText());
-//		editDienstleister.setEmail(txtEmail.getText());
-//		editDienstleister.setTelefon(txtTelefon.getText());
-//		editDienstleister.setGeburtsDatum(dtpGeburtsDatum.getValue());
-//		Toggle selToggle = group.getSelectedToggle();
-//		if (selToggle == rbMann) {
-//			editDienstleister.setGeschlecht(Geschlecht.MANN);
-//		} else {
-//			editDienstleister.setGeschlecht(Geschlecht.FRAU);
-//		}
-//		
-//		
-//	}
+	}
+
 	
 	
 	public boolean isValid() {

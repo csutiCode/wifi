@@ -1,6 +1,5 @@
 package verwaltung.program;
 
-import java.io.FileNotFoundException;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,6 +19,8 @@ public class AnmeldungController{
 	@FXML
 	private Button btnCancel;
 	
+	String bName;
+	
 	@FXML
 	private void onOK() {
 		
@@ -28,15 +29,15 @@ public class AnmeldungController{
 				System.out.println("Anmeldung OK.");
 				Stage stage = (Stage) btnCancel.getScene().getWindow();
 				stage.close();
-				TableViewController.isAdmin=true;
-			//TODO: erinnert den Benutzer, dass die Daten falsch sind, schliesst das Fenster
-			} 
+				TableViewController.isUser = true;
+				TableViewController.setUserId(Dao.getUserId(bName));
+				} 
 	}
 	
 	//kontrolliert, ob die eingegebene Daten richtig sind
 	//wenn richtig, liefert true zurück
 	private boolean isValid() {
-		String bName = txtBenutzerName.getText();
+		bName = txtBenutzerName.getText();
 		String passwort = txtPasswort.getText(); 
 		try {
 		if (Dao.readBenutzerName(bName).equals(bName)
@@ -53,6 +54,7 @@ public class AnmeldungController{
 			return false;
 		}
 	}
+
 	@FXML
 	private void onClose(){
 	    // managiert das Stage
@@ -60,9 +62,6 @@ public class AnmeldungController{
 	    // beendet das Stage
 	    stage.close();
 	}
-	
-	
-	
-	
+
 
 }

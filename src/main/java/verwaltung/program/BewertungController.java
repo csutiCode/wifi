@@ -57,7 +57,7 @@ public class BewertungController {
 	}
 	public void initialize() {
 				
-		dienstleister = Dao.getOneById(TableViewController.getId());
+		dienstleister = Dao.getOneById(TableViewController.getDienstleisterId());
 		BooleanBinding isValid = Bindings.createBooleanBinding(this::isValid, txtName.textProperty(),
 					txtBewertung.textProperty());
 		

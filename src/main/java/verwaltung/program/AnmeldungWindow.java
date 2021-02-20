@@ -25,11 +25,10 @@ public class AnmeldungWindow {
 		//
 		source.getController();
 		// zeigt das Fenster an und kehrt sofort zurück
-		stage.show();
+//		stage.show();
 		
 		// blockiert, bis das Fenster geschlossen wurde
-//		stage.showAndWait();
-		// den Student zurückliefern
+		stage.showAndWait();
 		System.out.println("Anmeldung-Fenster öffnet sich.");
 	}
 
