@@ -21,7 +21,7 @@ public class InfoBlattWindow {
 				"/verwaltung/views/InfoBlattWindow.fxml", null); 
 		
 		Stage stage = new Stage(StageStyle.DECORATED);
-		stage.setScene(new Scene(source.getRoot(), 600, 700));
+		stage.setScene(new Scene(source.getRoot(), 500, 400));
 		
 		stage.setTitle("Informationen");
 		
@@ -29,7 +29,7 @@ public class InfoBlattWindow {
 
 //		source.getController();
 		// zeigt das Fenster an und kehrt sofort zurück
-		stage.show();
+		stage.showAndWait();
 		System.out.println("Info-Fenster öffnet sich.");
 		
 	}

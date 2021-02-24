@@ -6,6 +6,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
+import verwaltung.common.MessageBox;
+import verwaltung.common.RegistrationValidator;
+import verwaltung.common.ValidationState;
 import verwaltung.db.Dao;
 import verwaltung.repository.Dienstleister;
 import verwaltung.repository.FirmenAdresse;
@@ -27,17 +30,11 @@ public class EditDienstleisterController {
 	@FXML
 	private TextField txtStadt;
 	@FXML
-	private RadioButton rbMann;
-	@FXML
-	private RadioButton rbFrau;
-	@FXML
 	private TextField txtTelefon;
 	@FXML
 	private TextField txtEmail;
 	@FXML
 	private TextField txtBeruf;
-	@FXML
-	private DatePicker dtpGeburtsDatum;
 	@FXML
 	private TextField txtName;
 	@FXML
@@ -45,7 +42,6 @@ public class EditDienstleisterController {
 	@FXML
 	private TextField txtNummer;
 	
-	private ToggleGroup group = new ToggleGroup();
 	
 	// der Dienstleister, der gerade bearbeitet wird, unser Objekt
 	private Dienstleister editDienstleister;
@@ -65,7 +61,6 @@ public class EditDienstleisterController {
 		}
 		
 	}
-	
 	public FirmenAdresse getEditAdresse() {
 		return editAdresse;
 	}
@@ -83,13 +78,11 @@ public class EditDienstleisterController {
 		}
 		System.out.println(editDienstleister + " from initialize");
 		
-	    rbMann.setToggleGroup(group);
-	    rbFrau.setToggleGroup(group);
-	    rbMann.setSelected(true);
+	 
 	    
 	    BooleanBinding isValid = Bindings.createBooleanBinding(this::isValid, txtName.textProperty(),
-				dtpGeburtsDatum.valueProperty(), txtBeruf.textProperty(), txtBeruf.textProperty(), txtTelefon.textProperty(),
-				txtStadt.textProperty(), txtPlz.textProperty(), txtStrasse.textProperty(), txtNummer.textProperty(),
+				txtBeruf.textProperty(), txtTelefon.textProperty(), txtStadt.textProperty(), 
+				txtPlz.textProperty(), txtStrasse.textProperty(), txtNummer.textProperty(),
 				txtEmail.textProperty(),txtTelefon.textProperty());
 		btnOk.disableProperty().bind(isValid.not());
 		
@@ -101,9 +94,16 @@ public class EditDienstleisterController {
 		//ändert das Dienstleister Objekt in der Datenbank
 		//oder erstellt ein neues Dienstleister Objekt in der Datenbank
 		
-		controlsToDienstleister();
-
-		((Stage)txtName.getScene().getWindow()).close();
+		if (validateEmailAndPhone(txtEmail.getText(), txtTelefon.getText()).equals(ValidationState.SUCCES)) {
+			controlsToDienstleister();
+			((Stage)txtName.getScene().getWindow()).close();
+		} else if (validateEmailAndPhone(txtEmail.getText(), txtTelefon.getText())
+				.equals(ValidationState.EMAIL_NOT_VALID)){
+			MessageBox.show("Problem", "E-mail Adresse nicht gültig!");
+		} else if (validateEmailAndPhone(txtEmail.getText(), txtTelefon.getText())
+				.equals(ValidationState.PHONE_NUMBER_NOT_VALID)) 
+			MessageBox.show("Problem", "Telefonnummer nicht gültig!");
+		
 	}
 	
 	// Event Listener on Button[#btnCancel].onAction
@@ -130,20 +130,11 @@ public class EditDienstleisterController {
 		editDienstleister.setName(txtName.getText());
 		editDienstleister.setEmail(txtEmail.getText());
 		editDienstleister.setTelefon(txtTelefon.getText());
-		editDienstleister.setGeburtsDatum(dtpGeburtsDatum.getValue());
 		User user = Dao.getUserById(TableViewController.getUserId());
 		editDienstleister.setUser(user);
 		System.out.println(user);
 		
 		
-		
-		
-//		Toggle selToggle = group.getSelectedToggle();
-//			if (selToggle == rbMann) {
-//				editDienstleister.setGeschlecht(Geschlecht.MANN);
-//			} else {
-//				editDienstleister.setGeschlecht(Geschlecht.FRAU);
-//			}
 
 	}
 
@@ -157,16 +148,7 @@ public class EditDienstleisterController {
 		txtBeruf.setText(editDienstleister.getBeruf());
 		txtTelefon.setText(editDienstleister.getTelefon());
 		txtEmail.setText(editDienstleister.getEmail());
-		dtpGeburtsDatum.setValue(editDienstleister.getGeburtsDatum());
 		
-//		switch (editDienstleister.getGeschlecht()) {
-//			case MANN:
-//				rbMann.setSelected(true);
-//				break;
-//			case FRAU:
-//				rbFrau.setSelected(true);
-//				break;
-//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -183,10 +165,21 @@ public class EditDienstleisterController {
 				&& (text = txtStrasse.getText()) != null && !text.isEmpty()
 				&& (text = txtNummer.getText()) != null && !text.isEmpty()
 				&& (text = txtBeruf.getText()) != null && !text.isEmpty()
-				&& dtpGeburtsDatum.getValue() != null
 				&& (text = txtEmail.getText()) != null && !text.isEmpty()
 				&& (text = txtTelefon.getText()) != null && !text.isEmpty();
 		return ok;
+	}
+	
+	public ValidationState validateEmailAndPhone(String email, String phone) {
+		
+		if (RegistrationValidator.validateEmail(email)
+			&& RegistrationValidator.validatePhone(phone)) {
+			return ValidationState.SUCCES;
+		} else if (!RegistrationValidator.validateEmail(email)) {
+			return ValidationState.EMAIL_NOT_VALID;
+		} else
+			return ValidationState.PHONE_NUMBER_NOT_VALID;
+
 	}
 	
 }

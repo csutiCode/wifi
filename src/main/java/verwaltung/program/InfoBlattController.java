@@ -18,11 +18,7 @@ public class InfoBlattController {
 	@FXML
 	private TextField txtAddress;
 	@FXML
-	private TextField txtGeschlecht;
-	@FXML
 	private TextField txtName;
-	@FXML
-	private TextField txtGeburtsdatum;
 	@FXML
 	private TextField txtBeruf;
 	@FXML
@@ -49,7 +45,6 @@ public class InfoBlattController {
 		//die Felder only read setzen
 		txtName.setEditable(false);
 		txtAddress.setEditable(false);
-		txtGeburtsdatum.setEditable(false);
 		txtBeruf.setEditable(false);
 		txtEmail.setEditable(false);
 		txtTelefon.setEditable(false);
@@ -63,6 +58,7 @@ public class InfoBlattController {
 	// Event Listener on Button[#btnOK].onAction
 	@FXML
 	public void onOk(ActionEvent event) {
+		
 		((Stage)txtName.getScene().getWindow()).close();
 		
 	}
@@ -71,6 +67,8 @@ public class InfoBlattController {
 	public void onBewerten(ActionEvent event) {
 		BewertungWindow bW = new BewertungWindow();
 		bW.showWindow();
+		((Stage)txtName.getScene().getWindow()).close();
+		
 	}
 
 	public void zeigeDatei() {
@@ -82,19 +80,14 @@ public class InfoBlattController {
 		String txtFirmenAdresse = adresse.getPlz() + " " + adresse.getStadt() + " " 
 		+ adresse.getStrasse() + " " + adresse.getHausnummer();
 		txtAddress.setText(txtFirmenAdresse);
-		txtGeburtsdatum.setText(String.valueOf(dienstleister.getGeburtsDatum()));
 		txtBeruf.setText(dienstleister.getBeruf());
 		txtEmail.setText(dienstleister.getEmail());
 		txtTelefon.setText(dienstleister.getTelefon());
-//		if (dienstleister.getGeschlecht().equals(Geschlecht.MANN)) {
-//			txtGeschlecht.setText("Mann"); 
-//		} else {
-//			txtGeschlecht.setText("Frau"); 
-//		}
+
 		
 		Set<Bewertung> set = new HashSet<Bewertung>();
 		set = dienstleister.getBewertungen();
-		//TODO: iterate through set
+		
 		StringBuilder sb = new StringBuilder();
 		
 		for (Bewertung bewertung : set) {

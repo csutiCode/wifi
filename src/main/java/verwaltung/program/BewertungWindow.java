@@ -22,7 +22,7 @@ public class BewertungWindow {
 
 		source.getController();
 		
-		stage.show();
+		stage.showAndWait();
 			
 	}
 

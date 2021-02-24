@@ -32,7 +32,7 @@ public class EditDienstleisterWindow {
 			"/verwaltung/views/EditDienstleisterView.fxml", null); 
 	
 		Stage stage = new Stage(StageStyle.DECORATED);
-		stage.setScene(new Scene(source.getRoot(), 600, 700));
+		stage.setScene(new Scene(source.getRoot(), 600, 500));
 	
 		stage.setTitle("Dienstleister erfassen");
 		stage.initModality(Modality.APPLICATION_MODAL);

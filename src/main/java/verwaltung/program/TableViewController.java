@@ -28,6 +28,8 @@ public class TableViewController{
 	@FXML
 	private Button btnLogin;
 	@FXML
+	private Button btnLogout;
+	@FXML
 	private Button btnInfo;
 	@FXML
 	private Button btnNew;
@@ -82,9 +84,8 @@ public class TableViewController{
 		//übergibt die Daten aus der DatenBank der Observablelist
 		createTableView();
 		//die nur einem Benutzer erreichbare Funktionen verstecken
-		btnNew.setVisible(false);
-		btnEdit.setVisible(false);
-		btnDelete.setVisible(false);
+		setVisible(isUser);
+		
 
 	}	
 	//öffnet das Fenster, um ein neues Dienstleister Objekt zu herstellen und in der Datanbank speichern
@@ -131,7 +132,15 @@ public class TableViewController{
 	public void login() {
 		AnmeldungWindow dlg = new AnmeldungWindow();
 		dlg.showWindow();
-//		threading();
+		setVisible(isUser);
+		
+	}
+	//abmelden
+	@FXML
+	public void logout() {
+		isUser = false;
+		userId = 0;
+		createTableView();
 		setVisible(isUser);
 		
 	}
@@ -142,41 +151,27 @@ public class TableViewController{
 		dienstleisterId = dienstleister.getServiceId();
 		InfoBlattWindow info = new InfoBlattWindow(dienstleister);
 		info.showWindow(dienstleister);
+		createTableView();
 		
 	}
 	//setzt die Buttons, die nur ein Dienstleister benutzen kann, sichtbar
-	public void setVisible(boolean isAdmin) {
-		//System.out.println("Setvisible called " +  isAdmin);
-		if (isAdmin) {
+	public void setVisible(boolean isUser) {
+		
+		if (isUser) {
 			btnNew.setVisible(true);
 			btnEdit.setVisible(true);
 			btnDelete.setVisible(true);
+			btnLogout.setVisible(true);
+			btnInfo.setVisible(false);
 			createTableView();
 			
 		} else {
 			btnNew.setVisible(false);
 			btnEdit.setVisible(false);
 			btnDelete.setVisible(false);
+			btnLogout.setVisible(false);
 		}
 		
-	}
-	//diese Methode gibt die Möglichkeit um die Buttons sichtbar zu machen nach der Anmeldung
-	public void threading() {
-		Thread thread = new Thread() {public void run() {
-			try {
-				while (!isUser) {
-					Thread.sleep(1000);
-					setVisible(isUser);
-					//TODO: thread schliessen
-//					if (isUser) {
-//						
-//					}
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}};		
-		thread.start();
 	}
 	
 	
