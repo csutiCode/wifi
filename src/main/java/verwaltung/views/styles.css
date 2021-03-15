@@ -1,0 +1,98 @@
+.label, .check-box, .radio-button{
+	-fx-font-size: 18.0px;
+	-fx-font-weight: bold;
+	
+}
+.button { 
+   -fx-background-color: lightgray; 
+   -fx-text-fill: black;
+   -fx-font-weight: bold;
+}
+
+
+.title{
+	-fx-font-size: 24.0px;
+	-fx-font-weight: bold;
+}
+
+
+.subTitle{
+	-fx-font-size: 20.0px;
+	-fx-font-weight: bold;
+	-fx-font-style: italic;
+	
+}
+
+.caption{
+	-fx-font-weight: bold;
+	-fx-font-style: italic;
+}
+ 
+.table-row-cell{
+    -fx-background-color: azure ;
+
+}
+
+.table-row-cell:odd{
+    -fx-background-color: lightgray ;
+}
+
+.table-row-cell:selected{
+    -fx-background-color: lightslategray ;
+   
+}
+
+.table-row-cell:empty {
+    -fx-background-color: white;
+}
+
+.table-row-cell:empty .table-cell {
+    -fx-border-width: 0.0px;
+}
+
+/* für die ListCell von ListView-Controls */
+.list-view  .list-cell{
+    -fx-background-color: azure ;
+    -fx-font-size: 16.0px;
+}
+
+.list-view  .list-cell:odd{
+    -fx-background-color: lightgray ;
+}
+
+.list-view  .list-cell:selected{
+    -fx-background-color: lightslategray ;
+}
+
+.list-cell:hover{
+    -fx-text-fill: darkgray;
+    -fx-font-weight: bold;
+}
+
+.list-cell:empty {
+    -fx-background-color: white;
+}
+
+.number{
+	-fx-alignment: CENTER-RIGHT;
+}
+
+.center{
+	-fx-alignment: CENTER;
+}
+
+
+
+:validation-error{
+	-fx-border-color: red;
+	-fx-border-width: 2.0px;
+	-fx-border-style: dotted; 
+}
+
+/* für die ListCell-Objekte der Combobox */
+.combo-box > .list-cell {
+	
+    -fx-font-size: 12.0px;
+    -fx-padding: 2.0 2.0 2.0 2.0;
+}
+

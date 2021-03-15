@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import verwaltung.common.MessageBox;
 import verwaltung.db.Dao;
-
+//Kontrollerklasse für AnmeldungFenster
 public class AnmeldungController{
 	@FXML
 	private TextField txtBenutzerName;
@@ -54,7 +54,7 @@ public class AnmeldungController{
 			return false;
 		}
 	}
-
+	//schliesst das Fenster
 	@FXML
 	private void onClose(){
 	    // managiert das Stage

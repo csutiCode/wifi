@@ -49,7 +49,7 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="btnCancel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Cancel">
+            <Button fx:id="btnCancel" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Beenden" onAction="#onBeenden">
                <HBox.margin>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </HBox.margin>

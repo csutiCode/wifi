@@ -1,13 +1,9 @@
 package verwaltung.repository;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.CascadeType;
-import javax.persistence.Embeddable;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -20,9 +16,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.SelectBeforeUpdate;
-import org.hibernate.annotations.Target;
+//Dienstleister POJO
 @Entity
 public class Dienstleister {
 	
@@ -40,7 +34,6 @@ public class Dienstleister {
 	@Embedded 
 	private FirmenAdresse adresse;
 	private String beruf;
-	private LocalDate geburtsDatum;
 	private String telefon;
 	private String email;
 	@OneToMany (cascade=CascadeType.ALL, fetch=FetchType.EAGER)
@@ -71,12 +64,7 @@ public class Dienstleister {
 	public void setAdresse(FirmenAdresse adresse) {
 		this.adresse = adresse;
 	}
-	public LocalDate getGeburtsDatum() {
-		return geburtsDatum;
-	}
-	public void setGeburtsDatum(LocalDate geburtsDatum) {
-		this.geburtsDatum = geburtsDatum;
-	}
+
 	public String getTelefon() {
 		return telefon;
 	}
@@ -122,7 +110,7 @@ public class Dienstleister {
 	}
 	@Override
 	public String toString() {
-		return "Dienstleister [serviceId=" + serviceId + ", name=" + name + ", user=" + user + "]";
+		return "Dienstleister [serviceId=" + serviceId + ", name=" + name + "]";
 	}
 	
 

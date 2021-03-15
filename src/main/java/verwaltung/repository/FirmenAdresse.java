@@ -1,8 +1,8 @@
 package verwaltung.repository;
 
 import javax.persistence.Embeddable;
-import javax.persistence.Transient;
-import javax.xml.bind.annotation.XmlTransient;
+
+//eine Klasse, um die Adressendaten zu speichern
 @Embeddable
 public class FirmenAdresse {
 	

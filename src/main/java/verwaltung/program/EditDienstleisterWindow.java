@@ -6,7 +6,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import verwaltung.common.FxmlSource;
 import verwaltung.repository.Dienstleister;
-
+//diese Klasse öffnet das Fenster um Dienstleister her zu stellen oder zu bearbeiten
 public class EditDienstleisterWindow {
 	
 	private Dienstleister dienstleister;
@@ -32,7 +32,7 @@ public class EditDienstleisterWindow {
 			"/verwaltung/views/EditDienstleisterView.fxml", null); 
 	
 		Stage stage = new Stage(StageStyle.DECORATED);
-		stage.setScene(new Scene(source.getRoot(), 600, 500));
+		stage.setScene(new Scene(source.getRoot(), 570, 500));
 	
 		stage.setTitle("Dienstleister erfassen");
 		stage.initModality(Modality.APPLICATION_MODAL);

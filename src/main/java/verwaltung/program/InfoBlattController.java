@@ -12,6 +12,7 @@ import java.util.Set;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextArea;
 
+//Kontrollerklasse für InfoFenster
 public class InfoBlattController {
 	@FXML
 	private Button btnOK;
@@ -29,6 +30,8 @@ public class InfoBlattController {
 	private TextField txtEmail;
 	@FXML
 	private TextField txtDurchschnitt;
+	@FXML
+	private TextField txtAnzahlBewertungen;
 	
 	private Dienstleister dienstleister;
 	
@@ -50,19 +53,18 @@ public class InfoBlattController {
 		txtTelefon.setEditable(false);
 		txtBewertungen.setEditable(false);
 		txtDurchschnitt.setEditable(false);
+		txtAnzahlBewertungen.setEditable(false);
 		
-		//itt az objektum mar nulla
-//		System.out.println(dienstleister + " initialize");
 	}
 
-	// Event Listener on Button[#btnOK].onAction
+	// Event Listener für Ok-Button
 	@FXML
 	public void onOk(ActionEvent event) {
-		
+		//schliesst das Fenster
 		((Stage)txtName.getScene().getWindow()).close();
 		
 	}
-	// Event Listener on Button.onAction
+	// Event Listener für Bewerten-Button, öffnet das Bewertung-Fenster
 	@FXML
 	public void onBewerten(ActionEvent event) {
 		BewertungWindow bW = new BewertungWindow();
@@ -70,7 +72,7 @@ public class InfoBlattController {
 		((Stage)txtName.getScene().getWindow()).close();
 		
 	}
-
+	//zeigt die Daten von dem gewünschten Dienstleister
 	public void zeigeDatei() {
 		System.out.println(dienstleister + " zeigeDatei");
 		//die Datei anzeigen
@@ -96,15 +98,16 @@ public class InfoBlattController {
 											+ bewertung.getDatum() + "\n");
 			
 		}
+		
+		
+		txtAnzahlBewertungen.setText(String.valueOf(dienstleister.getBewertungen().size()));
 		txtBewertungen.setText(sb.toString());
-		txtDurchschnitt.setText(String.valueOf(dienstleister.getDurchschnittsBewertung()));
-		
-		
+		if (dienstleister.getBewertungen().size()==0) {
+			txtDurchschnitt.setText(" ");
+		} else {
+			txtDurchschnitt.setText(String.valueOf(dienstleister.getDurchschnittsBewertung()));
+		}
+			
 	}
-
-	
-
-	
-	
 	
 }

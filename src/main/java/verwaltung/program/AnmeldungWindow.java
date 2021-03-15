@@ -5,11 +5,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import verwaltung.common.FxmlSource;
 
-
+//öffnet das AnmeldungFenster
 public class AnmeldungWindow {
 	
-	
-
 
 
 	public void showWindow() {
@@ -20,13 +18,9 @@ public class AnmeldungWindow {
 		stage.setScene(new Scene(source.getRoot(), 300, 150));
 		
 		stage.setTitle("Anmelden");
-//		stage.initModality(Modality.APPLICATION_MODAL);
 		
-		//
 		source.getController();
-		// zeigt das Fenster an und kehrt sofort zurück
-//		stage.show();
-		
+
 		// blockiert, bis das Fenster geschlossen wurde
 		stage.showAndWait();
 		System.out.println("Anmeldung-Fenster öffnet sich.");

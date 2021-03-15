@@ -1,13 +1,14 @@
 package verwaltung.repository;
 
 import java.time.LocalDate;
-import java.util.List;
-
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+//Bewertung POJO
 @Entity
 public class Bewertung {
 	
@@ -19,6 +20,7 @@ public class Bewertung {
 	private double note;
 	private String bewerter;
 	
+	@Column(nullable=true)
 	private int serviceId;
 	
 	public int getBewertungsId() {

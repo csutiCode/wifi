@@ -20,7 +20,7 @@ import verwaltung.repository.Bewertung;
 import verwaltung.repository.Dienstleister;
 import verwaltung.repository.FirmenAdresse;
 import verwaltung.repository.User;
-
+//Controllerklasse fürs Main-View
 public class TableViewController{
 	
 	
@@ -104,6 +104,7 @@ public class TableViewController{
 			System.out.println("Cancelled");
 		}
 	}
+	//einen schon gespeicherten Dienstleister-Objekt ändern
 	@FXML
 	public void editDienstleister() {
 		Dienstleister editDienstleister = selectedDienstleister.get();
@@ -147,6 +148,7 @@ public class TableViewController{
 	//öffnet das Anmeldung-Fenster, um die erweiterte Datei eines Dienstleisters an zu schauen
 	@FXML
 	public void info() {
+	
 		Dienstleister dienstleister = selectedDienstleister.getValue();
 		dienstleisterId = dienstleister.getServiceId();
 		InfoBlattWindow info = new InfoBlattWindow(dienstleister);
@@ -162,7 +164,7 @@ public class TableViewController{
 			btnEdit.setVisible(true);
 			btnDelete.setVisible(true);
 			btnLogout.setVisible(true);
-			btnInfo.setVisible(false);
+
 			createTableView();
 			
 		} else {
@@ -170,11 +172,13 @@ public class TableViewController{
 			btnEdit.setVisible(false);
 			btnDelete.setVisible(false);
 			btnLogout.setVisible(false);
+			
 		}
 		
 	}
 	
-	
+	//diese Methode ist zuständig, um die gebrauchte Dienstleister in dem ListView zu holen
+	//und ermöglicht die Suchfunktion
 	public void createTableView() {
 		
 		if (isUser) {

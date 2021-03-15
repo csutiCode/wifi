@@ -62,8 +62,11 @@ public class Dao {
 	//löscht ein Objekt aus der Datenbank
 	public static void deleteDienstleister(Dienstleister dienstleister) {
 		Session session = getSession();
-		Transaction tx = session.beginTransaction();
-		session.delete(dienstleister);
+		Transaction tx = session.beginTransaction();		
+		deleteBewertung(dienstleister);
+		String hql = "delete from Dienstleister b where b.serviceId = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", dienstleister.getServiceId()).executeUpdate();
 		tx.commit();
 		session.close();
 	}
@@ -71,8 +74,6 @@ public class Dao {
 	public static Dienstleister getOneById(int id) {
 		Dienstleister dienstleister = new Dienstleister();
 		Session session = getSession();
-//		Criteria crit = session.createCriteria(Dienstleister.class);
-//		dienstleister = (Dienstleister) crit.add(Restrictions.eq("serviceId", id)).uniqueResult();
 		dienstleister = session.get(Dienstleister.class, id);
 		session.close();
 		return dienstleister;	
@@ -96,6 +97,7 @@ public class Dao {
 		session.close();
 		return a.getBenutzerName();
 	}
+	//lest das Passwort bei Anmeldung
 	public static String readPasswort(String passwort) {
 		Session session = getSession();
 		Transaction tx = session.beginTransaction();
@@ -106,6 +108,7 @@ public class Dao {
 		session.close();
 		return a.getPasswort();
 	}
+	//lest das Id von einem User
 	public static int getUserId(String benutzerName) {
 		Session session = getSession();
 		Transaction tx = session.beginTransaction();
@@ -116,6 +119,7 @@ public class Dao {
 		session.close();
 		return a.getUserId();
 	}
+	//holt das User aus der Datenbank
 	public static User getUserById(int id) {
 		User user = new User();
 		Session session = getSession();
@@ -124,8 +128,16 @@ public class Dao {
 		return user;
 	}
 		
-	
-	
+	//löscht eine Bewertung aus der Datenbank
+	public static void deleteBewertung(Dienstleister dienstleister) {
+		Session session = getSession();
+		Transaction tx = session.beginTransaction();
+		String hql = "delete from Bewertung b where b.serviceId = :id";
+		Query query = session.createQuery(hql);
+		query.setParameter("id", dienstleister.getServiceId()).executeUpdate();
+		session.close();
+		
+	}
 	
 	
 	//die Datenbankverbindung auf zu bauen

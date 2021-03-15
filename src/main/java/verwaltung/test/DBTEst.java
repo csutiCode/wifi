@@ -1,14 +1,11 @@
 package verwaltung.test;
 
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Set;
-
 import verwaltung.db.Dao;
 import verwaltung.repository.Bewertung;
 import verwaltung.repository.Dienstleister;
-import verwaltung.repository.FirmenAdresse;
-
+//eine Klasse, um die DatenbankKonnektion zu testen
 public class DBTEst {
 	
 	

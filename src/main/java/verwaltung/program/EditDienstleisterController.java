@@ -18,7 +18,8 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.event.ActionEvent;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.DatePicker;
-
+import javafx.scene.control.Label;
+//KontrollerKlasse für das Fenster herstellen/bearbeiten
 public class EditDienstleisterController {
 	
 	@FXML
@@ -41,6 +42,8 @@ public class EditDienstleisterController {
 	private TextField txtStrasse;
 	@FXML
 	private TextField txtNummer;
+	@FXML
+	private Label labelDienstleister;
 	
 	
 	// der Dienstleister, der gerade bearbeitet wird, unser Objekt
@@ -70,16 +73,8 @@ public class EditDienstleisterController {
 		}	
 	@FXML
 	public void initialize() {
-		//das Objekt setzen oder aus der Datenbank holen
-		if (TableViewController.getDienstleisterId()==0) {
-			editDienstleister = new Dienstleister();
-		} else {
-			editDienstleister = Dao.getOneById(TableViewController.getDienstleisterId());
-		}
-		System.out.println(editDienstleister + " from initialize");
 		
-	 
-	    
+	    //bindet die Felder mit dem Ok-Button
 	    BooleanBinding isValid = Bindings.createBooleanBinding(this::isValid, txtName.textProperty(),
 				txtBeruf.textProperty(), txtTelefon.textProperty(), txtStadt.textProperty(), 
 				txtPlz.textProperty(), txtStrasse.textProperty(), txtNummer.textProperty(),
@@ -87,13 +82,13 @@ public class EditDienstleisterController {
 		btnOk.disableProperty().bind(isValid.not());
 		
 	}
-	// Event Listener on Button[#btnOK].onAction
+	// Event Listener für OK-button
 	@FXML
 	public void onOk(ActionEvent event) {
 		
 		//ändert das Dienstleister Objekt in der Datenbank
 		//oder erstellt ein neues Dienstleister Objekt in der Datenbank
-		
+		//benutzt die Validierungsklasse
 		if (validateEmailAndPhone(txtEmail.getText(), txtTelefon.getText()).equals(ValidationState.SUCCES)) {
 			controlsToDienstleister();
 			((Stage)txtName.getScene().getWindow()).close();
@@ -106,7 +101,7 @@ public class EditDienstleisterController {
 		
 	}
 	
-	// Event Listener on Button[#btnCancel].onAction
+	// Event Listener für Cancel Button, schliesst das Fenster
 	@FXML
 	public void onCancel(ActionEvent event) {
 		editDienstleister = null;
@@ -114,7 +109,7 @@ public class EditDienstleisterController {
 		
 	}
 	
-	
+	//übergibt die Daten von dem Felder einem Dienstleiter-Objekt
 	public void controlsToDienstleister() {
 		//zu der AdressenObjekt
 		editAdresse = new FirmenAdresse();
@@ -137,7 +132,7 @@ public class EditDienstleisterController {
 		
 
 	}
-
+	//holt die Daten von dem ausgesuchten Dienstleister Objekt
 	public void dienstleisterToControls() {
 		try {
 		txtName.setText(editDienstleister.getName());
@@ -156,7 +151,7 @@ public class EditDienstleisterController {
 	}
 
 	
-	
+	//kontrolliert, ob alle die Felder eingefüllt sind
 	public boolean isValid() {
 		String text;
 		boolean ok = (text = txtName.getText()) != null && !text.isEmpty()
@@ -169,7 +164,7 @@ public class EditDienstleisterController {
 				&& (text = txtTelefon.getText()) != null && !text.isEmpty();
 		return ok;
 	}
-	
+	//übergibt ein State über die Felder "E-mail" und "Telefon"
 	public ValidationState validateEmailAndPhone(String email, String phone) {
 		
 		if (RegistrationValidator.validateEmail(email)

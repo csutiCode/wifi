@@ -19,7 +19,7 @@ import verwaltung.repository.Dienstleister;
 import javafx.scene.control.Slider;
 
 import javafx.scene.control.TextArea;
-
+//Kontrollerklasse fürs BewertungFenster
 public class BewertungController {
 	
 	@FXML
@@ -45,7 +45,7 @@ public class BewertungController {
 
 	public void setDienstleister(Dienstleister dienstleister) {
 		this.dienstleister = dienstleister;
-		System.out.println(dienstleister + " BewertungSindowbol meghivott setter");
+		
 	}
 
 	public Bewertung getBewertung() {
@@ -56,27 +56,29 @@ public class BewertungController {
 		this.bewertung = bewertung;
 	}
 	public void initialize() {
-				
+		
+		//holt das Dienstleisterobjekt und bindet das Ok-Button mit den Felder
 		dienstleister = Dao.getOneById(TableViewController.getDienstleisterId());
 		BooleanBinding isValid = Bindings.createBooleanBinding(this::isValid, txtName.textProperty(),
 					txtBewertung.textProperty());
 		
 		btnOk.disableProperty().bind(isValid.not());
 		
-//		System.out.println(dienstleister + " initialize bewertungwindow");
-//		System.out.println("id =" + id);
+
 		 
 		
 	}
-
+	//speichert die Bewertung und schliesst das Fenster
 	public void onSpeichern() {
 		controlsToBewertung();
 		((Stage)txtName.getScene().getWindow()).close();
 	}
-	
-	public void onOk() {
+	//schliesst das Fenster
+	public void onBeenden() {
 		((Stage)txtName.getScene().getWindow()).close();
 	}
+	
+	//übergibt die Daten aus den Felder dem Bewertung-Objekt 
 	public void controlsToBewertung() {
 		bewertung = new Bewertung();
 		//die Bewertungsdatei speichern
@@ -91,16 +93,11 @@ public class BewertungController {
 		
 		
 	}
-	
-	
+	//kontrolliert, ob die Felder ausgefüllt sind
 	public boolean isValid() {
 		String text;
 		boolean ok = (text = txtName.getText()) != null && !text.isEmpty()
 				&& (text = txtBewertung.getText()) != null && !text.isEmpty();
 		return ok;
 	}
-	
-	
-	
-
 }

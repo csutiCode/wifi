@@ -5,7 +5,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import verwaltung.common.FxmlSource;
 
-
+//diese Klasse startet die Application
 public class TableViewMain extends Application{
 	
 
@@ -15,18 +15,16 @@ public class TableViewMain extends Application{
 	}
 
 	@Override
-	public void start(Stage primaryStage) throws Exception {
-		
+	public void start(Stage primaryStage) throws Exception {		
 		// FXML Quelle
-		FxmlSource<TableViewController> source = new FxmlSource<TableViewController>("/verwaltung/views/TableView.fxml", null);				
-		// das Repository setzen
+		FxmlSource<TableViewController> source = new FxmlSource<TableViewController>("/verwaltung/views/TableView.fxml",  "/verwaltung/views/styles.css");				
 		source.getController();
-		Scene scene = new Scene(source.getRoot(), 600, 400);
+		Scene scene = new Scene(source.getRoot(), 500, 400);
 		// das CSS-Stylesheet laden und setzen
-//		scene.getStylesheets().add(source.getCssFilename());
+		scene.getStylesheets().add(source.getCssFilename());
 		// das ganze anzeigen
 		primaryStage.setScene(scene);
-		primaryStage.setTitle("Service-Verwaltung Demo 0.1");
+		primaryStage.setTitle("Service-Verwaltung");
 		primaryStage.show();
 		System.out.println("Das Programm läuft...");
 	

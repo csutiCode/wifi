@@ -3,7 +3,7 @@ package verwaltung.common;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-
+//eine Alert-Klasse, um gewisse Nachrichten mit dem Benutzer zu teilen
 public class MessageBox {
 	
 	public static ButtonType show(String title, String content) {
